@@ -79,15 +79,17 @@ void Function(LIST &L) {
     }
 
     if (count < 3) return;
+    // 1 2 3 4 5 6
+    // 1 2 3 4 5
+
 
     // find mid element
     // mid element = new tail of first half
-    int mid = count / 2;
+    int newHeadIdx = (count + 1)/ 2;
     p = L.pHead;
-    for (int i = 1; i < mid; ++i) {
+    for (int i = 1; i < newHeadIdx-1; ++i) {
         p = p->pNext;
     }
-    // --> p = mid node
 
     NODE* newHead = p->pNext;
     p->pNext = nullptr;

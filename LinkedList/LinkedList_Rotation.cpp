@@ -1,135 +1,112 @@
-
 /**
   ******************************************************************************
-  * @file    LinkedList_Rotation.cpp
+  * @file    LinkedList_Ratation.cpp
   * @author  Pham Minh Tuan
-  * @brief   Move the elements from the middle index to the last index of the LinkedList to the head
-  * @date    19/06/2024
-  */
-
+  * @brief   Move part of a linked list from middle index to the end of the list to the head
+  * @date    20/06/2024
+  ******************************************************************************
+*/
 #include <iostream>
-#include <cmath>
 using namespace std;
 
-// Cấu trúc của một node
 struct NODE {
-	int info;
-	NODE* pNext;
+    int info;
+    NODE* pNext;
 };
-// Cấu trúc của một DSLK
 struct LIST {
-	NODE* pHead;
-	NODE* pTail;
+    NODE* pHead;
+    NODE* pTail;
 };
 
-/////////////////////////
-void CreateEmptyList(LIST &L)
-{
-    L.pHead = NULL;
-    L.pTail = NULL;
+void CreateEmptyList(LIST &L) {
+    L.pHead = nullptr;
+    L.pTail = nullptr;
 }
 
-NODE *CreateNode(int n)
-{
-    NODE *returnNode = new NODE;
-    returnNode->info = n;
-    returnNode->pNext = NULL;
-    return returnNode;
-}
-
-void AddTail(LIST &L, NODE *node)
-{
-    if (L.pHead == NULL)
-    {
-        L.pHead = node;
-        L.pTail = node;
+NODE* CreateNode(int x) {
+    NODE* p = new NODE;
+    if (p == nullptr) {
+        cout << "Don't have enough memory.";
+        return nullptr;
     }
-    L.pTail->pNext = node;
-    L.pTail = node;
+    p->info = x;
+    p->pNext = nullptr;
+    return p;
 }
 
-void CreateList(LIST &L)
-{
-    // Enter until -1
-    int n;
-    cin >> n;
-    if (n == -1)
-    {
+void AddTail(LIST &L, NODE* p) {
+    if (L.pHead == nullptr) {
+        L.pHead = L.pTail = p;
+    } else {
+        L.pTail->pNext = p;
+        L.pTail = p;
+    }
+}
+
+void CreateList(LIST &L) {
+    int x;
+    while (true) {
+        cin >> x;
+        if (x == -1) break;
+        NODE* p = CreateNode(x);
+        AddTail(L, p);
+    }
+}
+
+void PrintList(NODE* pHead) {
+    if (pHead == nullptr) {
+        cout << "Empty List.";
         return;
     }
-    while (n != -1)
-    {
-        AddTail(L, CreateNode(n));
-        cin >> n;
-        if (n == -10)
-            {
-                    break;
-                return;
-            }
+    NODE* p = pHead;
+    while (p != nullptr) {
+        cout << p->info;
+        if (p->pNext != nullptr) cout << " ";
+        p = p->pNext;
     }
+    cout << endl;
 }
 
-/*
-In C++ (int) 5 / (int) 2 = 2.
-Cut off from middle index then move to the head. Concatenating the part of to it
-*/
-void Function(LIST &L)
-{
-    if (L.pHead == NULL || L.pHead == L.pTail)
-    {
-        return;
-    }
+
+void Function(LIST &L) {
+    if (L.pHead == nullptr || L.pHead->pNext == nullptr) return;
 
     int count = 0;
-    NODE *current = L.pHead;
-    while (current != NULL) {
+    NODE* p = L.pHead;
+    while (p != nullptr) {
         count++;
-        current = current->pNext;
+        p = p->pNext;
     }
 
-    int middleIndex = (count + 1) / 2;
+    if (count < 3) return;
 
-    current = L.pHead;
-    for (int i = 1; i < middleIndex - 1; i++) {
-        current = current->pNext;
+    // find mid element
+    // mid element = new tail of first half
+    int mid = count / 2;
+    p = L.pHead;
+    for (int i = 1; i < mid; ++i) {
+        p = p->pNext;
+    }
+    // --> p = mid node
+
+    NODE* newHead = p->pNext;
+    p->pNext = nullptr;
+
+    NODE* temp = newHead;
+    while (temp->pNext != nullptr) {
+        temp = temp->pNext;
     }
 
-    NODE *newHead = current->pNext;
-
-    current->pNext = NULL;
-
-    L.pTail->pNext = L.pHead;
+    temp->pNext = L.pHead;
     L.pHead = newHead;
-    L.pTail = current;
 }
 
-
-void PrintList(NODE *head)
-{
-    if (head == NULL)
-    {
-        cout << "Empty List.";
-    }
-    NODE *iteratorNode = head;
-    while (iteratorNode != NULL)
-    {
-        cout << iteratorNode->info << " ";
-        iteratorNode = iteratorNode->pNext;
-    }
-}
-
-////////////////////////
 
 int main() {
     LIST L;
-
-	CreateEmptyList(L);
-	CreateList(L);
-
-	Function(L);
-
-	PrintList(L.pHead);
-
+    CreateEmptyList(L);
+    CreateList(L);
+    Function(L);
+    PrintList(L.pHead);
     return 0;
 }
-

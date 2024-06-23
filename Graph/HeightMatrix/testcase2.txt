@@ -1,0 +1,13 @@
+11 9
+VN Lao Cam Thai TQ Indo DTimo Nhat Han
+VN Lao 1
+VN Indo 2
+Han VN 3
+Lao Cam 4
+Lao TQ 5
+Cam TQ 6
+Cam Thai 7
+DTimo TQ 8
+Thai DTimo 9
+Thai Nhat 2
+Indo DTimo 1

@@ -1,0 +1,9 @@
+7 7
+VN Lao Cam Thai TQ Nhat Han
+VN Lao 1
+VN Cam 2
+Lao VN 1
+TQ Cam 3
+Thai Lao 2
+Cam Han 4
+Han Nhat 5

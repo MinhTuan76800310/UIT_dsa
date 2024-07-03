@@ -7,6 +7,8 @@
   ****************************************************************************
 */
 #include <iostream>
+#include <stack>
+
 using namespace std;
 
 struct TNODE {
@@ -78,11 +80,41 @@ int SumNode(TREE T)
 }
 
 // end
+
+//                  DON'T USE RECURSION
+int SumNode_stack(TREE T)
+{
+    int sum =0;
+    TNODE *iteratorNode = T;
+    stack<TNODE*> st;
+    while(iteratorNode != NULL)
+    {
+        st.push(iteratorNode);
+        iteratorNode = iteratorNode->pLeft;
+    }
+    while(!st.empty())
+    {
+    iteratorNode = st.top();
+    st.pop();
+    sum = sum + iteratorNode->key;
+    if (iteratorNode->pRight != NULL)
+    {
+        iteratorNode = iteratorNode->pRight;
+        while(iteratorNode != NULL)
+        {
+        st.push(iteratorNode);
+        iteratorNode = iteratorNode->pLeft;
+        }
+    }
+    }
+    return sum;
+}
 int main() {
 	TREE T; //hay: TNODE* T;
 	T = NULL; // Khoi tao cay T rong, or: CreateEmptyTree(T)
 	CreateTree(T);
-	cout << SumNode(T);
+	cout << SumNode(T) << endl;
+	cout << "Sum by stack: " << SumNode_stack(T);
 	return 0;
 }
 
